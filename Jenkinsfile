@@ -8,31 +8,9 @@ targetEnvs_script = '''
 return ["select...", "dev", "prod"]
 ''' 
 
-sgSDKUrl_script =  '''
-def getUrl() {
-    def value = ""
-        switch(REGION + TARGET_ENV) {
-            case "hwdev":
-                println "hwdev"
-                value = "https://test-api.kingsoftgame.com"
-                break
-            case "hwprod": 
-                println "hwprod"
-                value = "https://safeapi.kingsoftgame.com"
-                break
-            case "cndev":
-                println "cndev"
-                value = "http://test-api-sgsdk.kingsoft.com"
-                break
-            case "cnprod":                    
-                println "cnwprod"
-                value = "https://api-sgsdk.kingsoft.com"
-                break
-        }
-    return value
-}
-def url = getUrl()
-return [url]
+Reg_script =  '''
+def reg = dockerBuild.getDockerRegistry()
+return [reg]
 '''               
 
 
@@ -42,7 +20,8 @@ properties([
     parameters([
         [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT',   name: 'REGION', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: regions_script]]],
         [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT',   name: 'TARGET_ENV', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: targetEnvs_script]]],
-        [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'SGSDK_URL', referencedParameters: 'REGION, TARGET_ENV', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["error"]'], script: [classpath: [], sandbox: false, script: sgSDKUrl_script]]]
+        [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT',   name: 'REGISTRY', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: Reg_script]]],
+        
     ])
 ])
 pipeline{
