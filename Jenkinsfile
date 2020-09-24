@@ -29,6 +29,7 @@ def getUrl() {
                 value = "https://api-sgsdk.kingsoft.com"
                 break
         }
+    return value
 }
 def url = getUrl()
 return [url]
@@ -54,8 +55,6 @@ pipeline{
                 echo "REGION is:" + params.REGION
                 echo "TARGET_ENV is:" + params.TARGET_ENV
                 echo "SGSDK_URL is:" + params.SGSDK_URL
-                echo "APP_NAME is:" + params.APP_NAME
-                echo "APP_ID is:" + params.APP_ID
             }
         }
     }
