@@ -5,7 +5,8 @@ return ["select...", "hw", "cn"]
 '''
 
 targetEnvs_script = '''
-return ["select...", "dev", "prod"]
+def reg = dockerBuild.getDockerRegistry()
+return [reg]
 ''' 
 
 Reg_script =  '''
