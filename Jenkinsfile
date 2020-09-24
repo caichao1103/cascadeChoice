@@ -9,7 +9,7 @@ return ["select...", "dev", "prod"]
 ''' 
 
 Reg_script =  '''
-def reg = dockerBuild.getDockerRegistry()
+def reg = TARGET_ENV + REGION
 return [reg]
 '''               
 
